@@ -6,9 +6,12 @@ export type Survey = {
 };
 
 export class SurveyDto implements Survey {
+    @IsInt({ message: 'ratingMustBeInteger' })
+    @Min(1, { message: 'ratingMustBeGreaterThanZero' })
+    @Max(5, { message: 'ratingMustBeLessThanFive' })
     rating: number;
 
-    @IsNotEmpty({ message: 'Comment is required.' })
+    @IsNotEmpty({ message: 'commentRequired' })
     comment: string;
 
     constructor(partial: Partial<Survey>) {
