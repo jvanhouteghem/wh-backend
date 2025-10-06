@@ -1,0 +1,20 @@
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import { Survey } from '@prisma/client';
+import { SurveyDto } from './survey.dto';
+
+@Injectable()
+export class SurveyService {
+    constructor(private prisma: PrismaService) {}
+
+    async create(data: { rating: number; comment?: string }): Promise<Survey> {
+        return this.prisma.survey.create({ data });
+    }
+
+    async findAll(): Promise<SurveyDto[]> {
+        const surveys: Survey[] = await this.prisma.survey.findMany();
+        return surveys.map(
+            s => new SurveyDto({ rating: s.rating, comment: s.comment ?? undefined })
+        );
+    }
+}
