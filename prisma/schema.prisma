@@ -16,6 +16,6 @@ generator client {
 model Survey {
   id        Int      @id @default(autoincrement())
   rating    Int
-  comment   String?
+  comment   String
   createdAt DateTime @default(now())
 }
