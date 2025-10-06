@@ -12,9 +12,6 @@ export class SurveyService {
     }
 
     async findAll(): Promise<SurveyDto[]> {
-        const surveys: Survey[] = await this.prisma.survey.findMany();
-        return surveys.map(
-            s => new SurveyDto({ rating: s.rating, comment: s.comment })
-        );
+        return this.prisma.survey.findMany();
     }
 }

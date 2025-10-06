@@ -1,11 +1,6 @@
-import { IsInt, Min, Max, IsNotEmpty, IsString } from 'class-validator';
+import { IsInt, Min, Max, IsNotEmpty } from 'class-validator';
 
-export type Survey = {
-    rating: number;
-    comment: string;
-};
-
-export class SurveyDto implements Survey {
+export class SurveyDto {
     @IsInt({ message: 'ratingMustBeInteger' })
     @Min(1, { message: 'ratingMustBeGreaterThanZero' })
     @Max(5, { message: 'ratingMustBeLessThanFive' })
@@ -13,8 +8,4 @@ export class SurveyDto implements Survey {
 
     @IsNotEmpty({ message: 'commentRequired' })
     comment: string;
-
-    constructor(partial: Partial<Survey>) {
-        Object.assign(this, partial);
-    }
 }
