@@ -1,6 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Injectable, NestMiddleware } from '@nestjs/common';
-import {requestContext} from "./request-context";
+import { AsyncLocalStorage } from 'async_hooks';
+
+export const requestContext = new AsyncLocalStorage<{ requestId: string }>();
 
 @Injectable()
 export class RequestIdMiddleware implements NestMiddleware {

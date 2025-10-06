@@ -1,5 +1,5 @@
 import { Logger } from '@nestjs/common';
-import {requestContext} from "./middlewares/request-context";
+import {requestContext} from "./middlewares/request-logger.middleware";
 
 export class AppLogger extends Logger {
     constructor(private readonly contextName: string) {
