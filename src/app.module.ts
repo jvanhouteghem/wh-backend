@@ -1,33 +1,33 @@
-import {MiddlewareConsumer, Module, NestModule} from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { PrismaModule } from './prisma/prisma.module';
 import { SurveyModule } from './survey/survey.module';
-import {RequestIdMiddleware} from "./middlewares/request-logger.middleware";
-import {ThrottlerGuard, ThrottlerModule} from "@nestjs/throttler";
-import {APP_GUARD} from "@nestjs/core";
+import { RequestIdMiddleware } from './middlewares/request-logger.middleware';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
-    imports: [
-        PrismaModule,
-        ThrottlerModule.forRoot({
-            throttlers: [
-                {
-                    name: 'default',
-                    ttl: 60000,
-                    limit: 5,
-                },
-            ],
-        }),
-        SurveyModule
-    ],
-    providers: [
+  imports: [
+    PrismaModule,
+    ThrottlerModule.forRoot({
+      throttlers: [
         {
-            provide: APP_GUARD,
-            useClass: ThrottlerGuard,
+          name: 'default',
+          ttl: 60000,
+          limit: 5,
         },
-    ],
+      ],
+    }),
+    SurveyModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule implements NestModule {
-    configure(consumer: MiddlewareConsumer) {
-        consumer.apply(RequestIdMiddleware).forRoutes('*');
-    }
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(RequestIdMiddleware).forRoutes('*');
+  }
 }
