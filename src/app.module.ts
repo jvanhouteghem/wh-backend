@@ -4,6 +4,7 @@ import { SurveyModule } from './survey/survey.module';
 import { RequestIdMiddleware } from './middlewares/request-logger.middleware';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { TodoModule } from './todo/todo.module';
 
 @Module({
   imports: [
@@ -13,11 +14,12 @@ import { APP_GUARD } from '@nestjs/core';
         {
           name: 'default',
           ttl: 60000,
-          limit: 5,
+          limit: 50000,
         },
       ],
     }),
     SurveyModule,
+    TodoModule,
   ],
   providers: [
     {
